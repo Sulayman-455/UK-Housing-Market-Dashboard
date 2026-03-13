@@ -12,8 +12,8 @@ Built as a demonstration of end-to-end data engineering - ingesting raw CSV data
 
 ## Screenshots
 
-![Overview](screenshots/overview.png)
-![Regional](screenshots/regional.png)
+![Overview](screenshots/Overview.png)
+![Regional](screenshots/Regional.png)
 ![Property Types](screenshots/Property.png)
 ![First Time Buyers](screenshots/Firsttime.png)
 
