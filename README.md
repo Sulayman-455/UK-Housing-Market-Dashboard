@@ -10,6 +10,13 @@ Built as a demonstration of end-to-end data engineering - ingesting raw CSV data
 - Queries the database using raw SQL to power four analytical views
 - Displays results through an interactive web dashboard built with Django and Chart.js
 
+## Screenshots
+
+![Overview](screenshots/overview.png)
+![Regional](screenshots/regional.png)
+![Property Types](screenshots/Property.png)
+![First Time Buyers](screenshots/Firsttime.png)
+
 ## Pages
 
 | Page | What it shows |
