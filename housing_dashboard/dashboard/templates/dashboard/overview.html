@@ -1,0 +1,53 @@
+{% extends "dashboard/base.html" %}
+{% block content %}
+
+<div class="kpi-row">
+    <div class="kpi">
+        <div class="label">Latest Average Price (England)</div>
+        <div class="value">{{ latest_price }}</div>
+    </div>
+    <div class="kpi">
+        <div class="label">12 Month Price Change</div>
+        <div class="value">{{ latest_change }}</div>
+    </div>
+</div>
+
+<div class="card">
+    <h2>Average House Price Trend - England (2010–2024)</h2>
+    <canvas id="overviewChart"></canvas>
+</div>
+
+<script>
+    const ctx = document.getElementById('overviewChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: {{ dates| safe }},
+        datasets: [{
+            label: 'Average Price (£)',
+            data: {{ prices| safe }},
+        borderColor: '#1a3a5c',
+        backgroundColor: 'rgba(26,58,92,0.08)',
+        borderWidth: 2,
+        pointRadius: 0,
+        fill: true,
+        tension: 0.3
+        }]
+    },
+        options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: {
+            y: {
+                ticks: {
+                    callback: val => '£' + val.toLocaleString()
+                }
+            },
+            x: {
+                ticks: { maxTicksLimit: 12 }
+            }
+        }
+    }
+});
+</script>
+{% endblock %}

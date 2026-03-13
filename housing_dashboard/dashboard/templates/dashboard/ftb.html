@@ -1,0 +1,60 @@
+{% extends "dashboard/base.html" %}
+{% block content %}
+
+<div class="kpi-row">
+    <div class="kpi">
+        <div class="label">Latest First Time Buyer Price</div>
+        <div class="value">{{ latest_ftb }}</div>
+    </div>
+    <div class="kpi">
+        <div class="label">Latest Overall Average</div>
+        <div class="value">{{ latest_avg }}</div>
+    </div>
+</div>
+
+<div class="card">
+    <h2>First Time Buyer Prices vs Market Average - England (2010-2024)</h2>
+    <canvas id="ftbChart"></canvas>
+</div>
+
+<script>
+    const ctx = document.getElementById('ftbChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: {{ dates| safe }},
+        datasets: [
+        {
+            label: 'First Time Buyer Price',
+            data: {{ ftb| safe }},
+        borderColor: '#e84855',
+        borderWidth: 2,
+        pointRadius: 0,
+        tension: 0.3
+            },
+        {
+            label: 'Market Average',
+            data: {{ average| safe }},
+        borderColor: '#1a3a5c',
+        borderWidth: 2,
+        pointRadius: 0,
+        tension: 0.3
+            }
+    ]
+    },
+        options: {
+        responsive: true,
+        scales: {
+            y: {
+                ticks: {
+                    callback: val => '£' + val.toLocaleString()
+                }
+            },
+            x: {
+                ticks: { maxTicksLimit: 12 }
+            }
+        }
+    }
+});
+</script>
+{% endblock %}

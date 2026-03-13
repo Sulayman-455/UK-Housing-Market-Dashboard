@@ -1,0 +1,65 @@
+{% extends "dashboard/base.html" %}
+{% block content %}
+
+<div class="card">
+    <h2>Price by Property Type - England (2010-2024)</h2>
+    <canvas id="propChart"></canvas>
+</div>
+
+<script>
+    const ctx = document.getElementById('propChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: {{ dates| safe }},
+        datasets: [
+        {
+            label: 'Detached',
+            data: {{ detached| safe }},
+        borderColor: '#1a3a5c',
+        borderWidth: 2,
+        pointRadius: 0,
+        tension: 0.3
+            },
+        {
+            label: 'Semi-Detached',
+            data: {{ semi| safe }},
+        borderColor: '#2e86ab',
+        borderWidth: 2,
+        pointRadius: 0,
+        tension: 0.3
+            },
+        {
+            label: 'Terraced',
+            data: {{ terraced| safe }},
+        borderColor: '#e84855',
+        borderWidth: 2,
+        pointRadius: 0,
+        tension: 0.3
+            },
+        {
+            label: 'Flat',
+            data: {{ flats| safe }},
+        borderColor: '#f4a261',
+        borderWidth: 2,
+        pointRadius: 0,
+        tension: 0.3
+            }
+    ]
+    },
+        options: {
+        responsive: true,
+        scales: {
+            y: {
+                ticks: {
+                    callback: val => '£' + val.toLocaleString()
+                }
+            },
+            x: {
+                ticks: { maxTicksLimit: 12 }
+            }
+        }
+    }
+});
+</script>
+{% endblock %}

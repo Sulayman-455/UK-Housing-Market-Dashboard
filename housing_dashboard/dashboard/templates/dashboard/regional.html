@@ -1,0 +1,38 @@
+{% extends "dashboard/base.html" %}
+{% block content %}
+
+<div class="card">
+    <h2>Average House Price by Region - Latest Available Data</h2>
+    <canvas id="regionalChart"></canvas>
+</div>
+
+<script>
+    const ctx = document.getElementById('regionalChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: {{ regions| safe }},
+        datasets: [{
+            label: 'Average Price (£)',
+            data: {{ prices| safe }},
+        backgroundColor: '#1a3a5c',
+        borderRadius: 4,
+        }]
+    },
+        options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: {
+            y: {
+                ticks: {
+                    callback: val => '£' + val.toLocaleString()
+                }
+            },
+            x: {
+                ticks: { maxRotation: 45 }
+            }
+        }
+    }
+});
+</script>
+{% endblock %}
