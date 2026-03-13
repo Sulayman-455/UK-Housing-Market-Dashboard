@@ -2,9 +2,11 @@ import pandas as pd
 from sqlalchemy import create_engine, text
 from django.shortcuts import render
 
+# Connect to SQLite database containing UK House Price Index data
 engine = create_engine('sqlite:///housing.db')
 
 def overview(request):
+    # Query England national average price trend from 2010 onwards
     query = text("""
         SELECT 
             Date,
@@ -21,7 +23,7 @@ def overview(request):
     df['Date'] = pd.to_datetime(df['Date'])
     dates = df['Date'].dt.strftime('%Y-%m').tolist()
     prices = df['AveragePrice'].tolist()
-    latest = df.iloc[-1]
+    latest = df.iloc[-1]  # Most recent row for KPI cards
 
     context = {
         'dates': dates,
@@ -32,6 +34,8 @@ def overview(request):
     return render(request, 'dashboard/overview.html', context)
 
 def regional(request):
+    # Query top 20 regions by average price at the latest available date
+    # Excludes national/country aggregates to show only local authority level
     query = text("""
         SELECT 
             RegionName,
@@ -53,6 +57,8 @@ def regional(request):
     return render(request, 'dashboard/regional.html', context)
 
 def property_types(request):
+    # Query price trends by property type for England
+    # Allows comparison of how detached, semi, terraced and flat prices have diverged
     query = text("""
         SELECT 
             Date,
@@ -80,6 +86,8 @@ def property_types(request):
     return render(request, 'dashboard/property_types.html', context)
 
 def first_time_buyers(request):
+    # Query first time buyer prices vs market average
+    # Relevant to L&Q's mission of improving housing affordability
     query = text("""
         SELECT 
             Date,
